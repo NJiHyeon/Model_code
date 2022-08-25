@@ -1,0 +1,5 @@
+[STARK 모델 관련 디버깅]
+1. 필요한 패키지를 설치할 때 에러 발생
+해결방법)
+  1) $export TMPDIR=$home/ubuntu/Stark
+  2) $TMPDIR=/home/ubuntu/Stark pip install [필요한패키지.예를 들어 pandas...]
