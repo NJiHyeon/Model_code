@@ -1,0 +1,434 @@
+1. Train dataset(COCO, TrackingNet, got10k, ImageNetVid, LaSOT)
+
+1) COCO_tool
+# Interface for accessing the Microsoft COCO dataset.
+
+# Microsoft COCO is a large image dataset designed for object detection,
+# segmentation, and caption generation. pycocotools is a Python API that
+# assists in loading, parsing and visualizing the annotations in COCO.
+# Please visit http://mscoco.org/ for more information on COCO, including
+# for the data, paper, and tutorials. The exact format of the annotations
+# is also described on the COCO website. For example usage of the pycocotools
+# please see pycocotools_demo.ipynb. In addition to this API, please download both
+# the COCO images and annotations in order to run the demo.
+
+# An alternative to using the API is to load the annotations directly
+# into Python dictionary
+# Using the API provides additional utility functions. Note that this API
+# supports both *instance* and *caption* annotations. In the case of
+# captions not all functions are defined (e.g. categories are undefined).
+
+# The following API functions are defined:
+#  COCO       - COCO api class that loads COCO annotation file and prepare data structures.
+#  decodeMask - Decode binary mask M encoded via run-length encoding.
+#  encodeMask - Encode binary mask M using run-length encoding.
+#  getAnnIds  - Get ann ids that satisfy given filter conditions.
+#  getCatIds  - Get cat ids that satisfy given filter conditions.
+#  getImgIds  - Get img ids that satisfy given filter conditions.
+#  loadAnns   - Load anns with the specified ids.
+#  loadCats   - Load cats with the specified ids.
+#  loadImgs   - Load imgs with the specified ids.
+#  annToMask  - Convert segmentation in an annotation to binary mask.
+#  showAnns   - Display the specified annotations.
+#  loadRes    - Load algorithm results and create API for accessing them.
+#  download   - Download COCO images from mscoco.org server.
+# Throughout the API "ann"=annotation, "cat"=category, and "img"=image.
+# Help on each functions can be accessed by: "help COCO>function".
+
+# See also COCO>decodeMask,
+# COCO>encodeMask, COCO>getAnnIds, COCO>getCatIds,
+# COCO>getImgIds, COCO>loadAnns, COCO>loadCats,
+# COCO>loadImgs, COCO>annToMask, COCO>showAnns
+
+# Microsoft COCO Toolbox.      version 2.0
+# Data, paper, and tutorials available at:  http://mscoco.org/
+# Code written by Piotr Dollar and Tsung-Yi Lin, 2014.
+# Licensed under the Simplified BSD License [see bsd.txt]
+------------------------------------------------------------------------------------------------------------------------------------------------------
+2) coco
+    """ The COCO object detection dataset.
+    Publication:
+        Microsoft COCO: Common Objects in Context.
+        Tsung-Yi Lin, Michael Maire, Serge J. Belongie, Lubomir D. Bourdev, Ross B. Girshick, James Hays, Pietro Perona,
+        Deva Ramanan, Piotr Dollar and C. Lawrence Zitnick
+        ECCV, 2014
+        https://arxiv.org/pdf/1405.0312.pdf
+    Download the images along with annotations from http://cocodataset.org/#download. The root folder should be
+    organized as follows.
+        - coco_root
+            - annotations
+                - instances_train2014.json
+                - instances_train2017.json
+            - images
+                - train2014
+                - train2017
+    Note: You also have to install the coco pythonAPI from https://github.com/cocodataset/cocoapi.
+    """
+    
+    
+    
+            """
+        args:
+            root - path to coco root folder
+            image_loader (jpeg4py_loader) - The function to read the images. jpeg4py (https://github.com/ajkxyz/jpeg4py)
+                                            is used by default.
+            data_fraction - Fraction of dataset to be used. The complete dataset is used by default
+            min_area - Objects with area less than min_area are filtered out. Default is 0.0
+            split - 'train' or 'val'.
+            version - version of coco dataset (2014 or 2017)
+        """
+        root = env_settings().coco if root is None else root
+------------------------------------------------------------------------------------------------------------------------------------------------------
+3) coco_seq
+    """ The COCO dataset. COCO is an image dataset. Thus, we treat each image as a sequence of length 1.
+    Publication:
+        Microsoft COCO: Common Objects in Context.
+        Tsung-Yi Lin, Michael Maire, Serge J. Belongie, Lubomir D. Bourdev, Ross B. Girshick, James Hays, Pietro Perona,
+        Deva Ramanan, Piotr Dollar and C. Lawrence Zitnick
+        ECCV, 2014
+        https://arxiv.org/pdf/1405.0312.pdf
+    Download the images along with annotations from http://cocodataset.org/#download. The root folder should be
+    organized as follows.
+        - coco_root
+            - annotations
+                - instances_train2014.json
+                - instances_train2017.json
+            - images
+                - train2014
+                - train2017
+    Note: You also have to install the coco pythonAPI from https://github.com/cocodataset/cocoapi.
+    """
+    
+    
+    
+            """
+        args:
+            root - path to the coco dataset.
+            image_loader (default_image_loader) -  The function to read the images. If installed,
+                                                   jpeg4py (https://github.com/ajkxyz/jpeg4py) is used by default. Else,
+                                                   opencv's imread is used.
+            data_fraction (None) - Fraction of images to be used. The images are selected randomly. If None, all the
+                                  images  will be used
+            split - 'train' or 'val'.
+            version - version of coco dataset (2014 or 2017)
+        """
+        root = env_settings().coco_seq if root is None else root
+------------------------------------------------------------------------------------------------------------------------------------------------------
+4) coco_seq_lmdb
+    """ The COCO dataset. COCO is an image dataset. Thus, we treat each image as a sequence of length 1.
+    Publication:
+        Microsoft COCO: Common Objects in Context.
+        Tsung-Yi Lin, Michael Maire, Serge J. Belongie, Lubomir D. Bourdev, Ross B. Girshick, James Hays, Pietro Perona,
+        Deva Ramanan, Piotr Dollar and C. Lawrence Zitnick
+        ECCV, 2014
+        https://arxiv.org/pdf/1405.0312.pdf
+    Download the images along with annotations from http://cocodataset.org/#download. The root folder should be
+    organized as follows.
+        - coco_root
+            - annotations
+                - instances_train2014.json
+                - instances_train2017.json
+            - images
+                - train2014
+                - train2017
+    Note: You also have to install the coco pythonAPI from https://github.com/cocodataset/cocoapi.
+    """
+    
+    
+            """
+        args:
+            root - path to the coco dataset.
+            image_loader (default_image_loader) -  The function to read the images. If installed,
+                                                   jpeg4py (https://github.com/ajkxyz/jpeg4py) is used by default. Else,
+                                                   opencv's imread is used.
+            data_fraction (None) - Fraction of images to be used. The images are selected randomly. If None, all the
+                                  images  will be used
+            split - 'train' or 'val'.
+            version - version of coco dataset (2014 or 2017)
+        """
+        root = env_settings().coco_seq_lmdb if root is None else root
+------------------------------------------------------------------------------------------------------------------------------------------------------
+5) got10k
+    """ GOT-10k dataset.
+    Publication:
+        GOT-10k: A Large High-Diversity Benchmark for Generic Object Tracking in the Wild
+        Lianghua Huang, Xin Zhao, and Kaiqi Huang
+        arXiv:1810.11981, 2018
+        https://arxiv.org/pdf/1810.11981.pdf
+    Download dataset from http://got-10k.aitestunion.com/downloads
+    """
+    
+    
+        """
+        args:
+            root - path to the got-10k training data. Note: This should point to the 'train' folder inside GOT-10k
+            image_loader (jpeg4py_loader) -  The function to read the images. jpeg4py (https://github.com/ajkxyz/jpeg4py)
+                                            is used by default.
+            split - 'train' or 'val'. Note: The validation split here is a subset of the official got-10k train split,
+                    not NOT the official got-10k validation split. To use the official validation split, provide that as
+                    the root folder instead.
+            seq_ids - List containing the ids of the videos to be used for training. Note: Only one of 'split' or 'seq_ids'
+                        options can be used at the same time.
+            data_fraction - Fraction of dataset to be used. The complete dataset is used by default
+        """    
+        root = env_settings().got10k_lmdb if root is None else root
+------------------------------------------------------------------------------------------------------------------------------------------------------
+6) got10k_lmdb
+        """
+        args:
+            root - path to the got-10k training data. Note: This should point to the 'train' folder inside GOT-10k
+            image_loader (jpeg4py_loader) -  The function to read the images. jpeg4py (https://github.com/ajkxyz/jpeg4py)
+                                            is used by default.
+            split - 'train' or 'val'. Note: The validation split here is a subset of the official got-10k train split,
+                    not NOT the official got-10k validation split. To use the official validation split, provide that as
+                    the root folder instead.
+            seq_ids - List containing the ids of the videos to be used for training. Note: Only one of 'split' or 'seq_ids'
+                        options can be used at the same time.
+            data_fraction - Fraction of dataset to be used. The complete dataset is used by default
+            use_lmdb - whether the dataset is stored in lmdb format
+        """
+        root = env_settings().got10k_lmdb_dir if root is None else root
+------------------------------------------------------------------------------------------------------------------------------------------------------
+7) imagenetvid
+    """ Imagenet VID dataset.
+    Publication:
+        ImageNet Large Scale Visual Recognition Challenge
+        Olga Russakovsky, Jia Deng, Hao Su, Jonathan Krause, Sanjeev Satheesh, Sean Ma, Zhiheng Huang, Andrej Karpathy,
+        Aditya Khosla, Michael Bernstein, Alexander C. Berg and Li Fei-Fei
+        IJCV, 2015
+        https://arxiv.org/pdf/1409.0575.pdf
+    Download the dataset from http://image-net.org/
+    """
+    
+    
+    
+            """
+        args:
+            root - path to the imagenet vid dataset.
+            image_loader (default_image_loader) -  The function to read the images. If installed,
+                                                   jpeg4py (https://github.com/ajkxyz/jpeg4py) is used by default. Else,
+                                                   opencv's imread is used.
+            min_length - Minimum allowed sequence length.
+            max_target_area - max allowed ratio between target area and image area. Can be used to filter out targets
+                                which cover complete image.
+        """
+        root = env_settings().imagenet_dir if root is None else root
+------------------------------------------------------------------------------------------------------------------------------------------------------
+8) imagenetvid_lmdb
+    """ Imagenet VID dataset.
+    Publication:
+        ImageNet Large Scale Visual Recognition Challenge
+        Olga Russakovsky, Jia Deng, Hao Su, Jonathan Krause, Sanjeev Satheesh, Sean Ma, Zhiheng Huang, Andrej Karpathy,
+        Aditya Khosla, Michael Bernstein, Alexander C. Berg and Li Fei-Fei
+        IJCV, 2015
+        https://arxiv.org/pdf/1409.0575.pdf
+    Download the dataset from http://image-net.org/
+    """
+    
+    
+    
+            """
+        args:
+            root - path to the imagenet vid dataset.
+            image_loader (default_image_loader) -  The function to read the images. If installed,
+                                                   jpeg4py (https://github.com/ajkxyz/jpeg4py) is used by default. Else,
+                                                   opencv's imread is used.
+            min_length - Minimum allowed sequence length.
+            max_target_area - max allowed ratio between target area and image area. Can be used to filter out targets
+                                which cover complete image.
+        """
+        root = env_settings().imagenet_dir if root is None else 
+------------------------------------------------------------------------------------------------------------------------------------------------------
+9) Lasot
+    """ LaSOT dataset.
+    Publication:
+        LaSOT: A High-quality Benchmark for Large-scale Single Object Tracking
+        Heng Fan, Liting Lin, Fan Yang, Peng Chu, Ge Deng, Sijia Yu, Hexin Bai, Yong Xu, Chunyuan Liao and Haibin Ling
+        CVPR, 2019
+        https://arxiv.org/pdf/1809.07845.pdf
+    Download the dataset from https://cis.temple.edu/lasot/download.html
+    """
+
+
+
+
+        """
+        args:
+            root - path to the lasot dataset.
+            image_loader (jpeg4py_loader) -  The function to read the images. jpeg4py (https://github.com/ajkxyz/jpeg4py)
+                                            is used by default.
+            vid_ids - List containing the ids of the videos (1 - 20) used for training. If vid_ids = [1, 3, 5], then the
+                    videos with subscripts -1, -3, and -5 from each class will be used for training.
+            split - If split='train', the official train split (protocol-II) is used for training. Note: Only one of
+                    vid_ids or split option can be used at a time.
+            data_fraction - Fraction of dataset to be used. The complete dataset is used by default
+        """
+        root = env_settings().lasot_dir if root is None else 
+------------------------------------------------------------------------------------------------------------------------------------------------------
+10) lasot_lmdb
+        """
+        args:
+            root - path to the lasot dataset.
+            image_loader (jpeg4py_loader) -  The function to read the images. jpeg4py (https://github.com/ajkxyz/jpeg4py)
+                                            is used by default.
+            vid_ids - List containing the ids of the videos (1 - 20) used for training. If vid_ids = [1, 3, 5], then the
+                    videos with subscripts -1, -3, and -5 from each class will be used for training.
+            split - If split='train', the official train split (protocol-II) is used for training. Note: Only one of
+                    vid_ids or split option can be used at a time.
+            data_fraction - Fraction of dataset to be used. The complete dataset is used by default
+        """
+        root = env_settings().lasot_lmdb_dir if root is None else 
+------------------------------------------------------------------------------------------------------------------------------------------------------
+11) Tracking_net
+    """ TrackingNet dataset.
+    Publication:
+        TrackingNet: A Large-Scale Dataset and Benchmark for Object Tracking in the Wild.
+        Matthias Mueller,Adel Bibi, Silvio Giancola, Salman Al-Subaihi and Bernard Ghanem
+        ECCV, 2018
+        https://ivul.kaust.edu.sa/Documents/Publications/2018/TrackingNet%20A%20Large%20Scale%20Dataset%20and%20Benchmark%20for%20Object%20Tracking%20in%20the%20Wild.pdf
+    Download the dataset using the toolkit https://github.com/SilvioGiancola/TrackingNet-devkit.
+    """
+    
+    
+    
+           """
+        args:
+            root        - The path to the TrackingNet folder, containing the training sets.
+            image_loader (jpeg4py_loader) -  The function to read the images. jpeg4py (https://github.com/ajkxyz/jpeg4py)
+                                            is used by default.
+            set_ids (None) - List containing the ids of the TrackingNet sets to be used for training. If None, all the
+                            sets (0 - 11) will be used.
+            data_fraction - Fraction of dataset to be used. The complete dataset is used by default
+        """
+        root = env_settings().trackingnet_dir if root is None else 
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+12) Tracking_net_lmdb
+    """ TrackingNet dataset.
+    Publication:
+        TrackingNet: A Large-Scale Dataset and Benchmark for Object Tracking in the Wild.
+        Matthias Mueller,Adel Bibi, Silvio Giancola, Salman Al-Subaihi and Bernard Ghanem
+        ECCV, 2018
+        https://ivul.kaust.edu.sa/Documents/Publications/2018/TrackingNet%20A%20Large%20Scale%20Dataset%20and%20Benchmark%20for%20Object%20Tracking%20in%20the%20Wild.pdf
+    Download the dataset using the toolkit https://github.com/SilvioGiancola/TrackingNet-devkit.
+    """
+    
+    
+    
+            """
+        args:
+            root        - The path to the TrackingNet folder, containing the training sets.
+            image_loader (jpeg4py_loader) -  The function to read the images. jpeg4py (https://github.com/ajkxyz/jpeg4py)
+                                            is used by default.
+            set_ids (None) - List containing the ids of the TrackingNet sets to be used for training. If None, all the
+                            sets (0 - 11) will be used.
+            data_fraction - Fraction of dataset to be used. The complete dataset is used by default
+        """
+        root = env_settings().trackingnet_lmdb_dir if root is None else 
+        
+        
+        
+        
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Test dataset
+1) VOT 2018
+    """
+    VOT2018 dataset
+    Publication:
+        The sixth Visual Object Tracking VOT2018 challenge results.
+        Matej Kristan, Ales Leonardis, Jiri Matas, Michael Felsberg, Roman Pfugfelder, Luka Cehovin Zajc, Tomas Vojir,
+        Goutam Bhat, Alan Lukezic et al.
+        ECCV, 2018
+        https://prints.vicos.si/publications/365
+    Download the dataset from http://www.votchallenge.net/vot2018/dataset.html
+    """
+------------------------------------------------------------------------------------------------------------------------------------------------------
+2) UAV123
+    """ UAV123 dataset.
+    Publication:
+        A Benchmark and Simulator for UAV Tracking.
+        Matthias Mueller, Neil Smith and Bernard Ghanem
+        ECCV, 2016
+        https://ivul.kaust.edu.sa/Documents/Publications/2016/A%20Benchmark%20and%20Simulator%20for%20UAV%20Tracking.pdf
+    Download the dataset from https://ivul.kaust.edu.sa/Pages/pub-benchmark-simulator-uav.aspx
+    """
+------------------------------------------------------------------------------------------------------------------------------------------------------
+3) TrackingNet
+    """ TrackingNet test set.
+    Publication:
+        TrackingNet: A Large-Scale Dataset and Benchmark for Object Tracking in the Wild.
+        Matthias Mueller,Adel Bibi, Silvio Giancola, Salman Al-Subaihi and Bernard Ghanem
+        ECCV, 2018
+        https://ivul.kaust.edu.sa/Documents/Publications/2018/TrackingNet%20A%20Large%20Scale%20Dataset%20and%20Benchmark%20for%20Object%20Tracking%20in%20the%20Wild.pdf
+    Download the dataset using the toolkit https://github.com/SilvioGiancola/TrackingNet-devkit.
+    """
+------------------------------------------------------------------------------------------------------------------------------------------------------
+4) OTB 2015
+    """ OTB-2015 dataset
+    Publication:
+        Object Tracking Benchmark
+        Wu, Yi, Jongwoo Lim, and Ming-hsuan Yan
+        TPAMI, 2015
+        http://faculty.ucmerced.edu/mhyang/papers/pami15_tracking_benchmark.pdf
+    Download the dataset from http://cvlab.hanyang.ac.kr/tracker_benchmark/index.html
+    """
+------------------------------------------------------------------------------------------------------------------------------------------------------
+5) NFS
+    """ NFS dataset.
+    Publication:
+        Need for Speed: A Benchmark for Higher Frame Rate Object Tracking
+        H. Kiani Galoogahi, A. Fagg, C. Huang, D. Ramanan, and S.Lucey
+        ICCV, 2017
+        http://openaccess.thecvf.com/content_ICCV_2017/papers/Galoogahi_Need_for_Speed_ICCV_2017_paper.pdf
+    Download the dataset from http://ci2cv.net/nfs/index.html
+    """
+------------------------------------------------------------------------------------------------------------------------------------------------------
+6) lasotextensionsubset
+    """
+    LaSOT test set consisting of 280 videos (see Protocol-II in the LaSOT paper)
+    Publication:
+        LaSOT: A High-quality Large-scale Single Object Tracking Benchmark
+        Heng Fan, Hexin Bai, Liting Lin, Fan Yang, Peng Chu, Ge Deng, Sijia Yu, Harshit, Mingzhen Huang, Juehuan Liu,
+        Yong Xu, Chunyuan Liao, Lin Yuan, Haibin Ling
+        IJCV, 2020
+        https://arxiv.org/pdf/2009.03465.pdf
+    Download the dataset from http://vision.cs.stonybrook.edu/~lasot/download.html
+    """
+------------------------------------------------------------------------------------------------------------------------------------------------------
+7) Lasot
+    """
+    LaSOT test set consisting of 280 videos (see Protocol-II in the LaSOT paper)
+    Publication:
+        LaSOT: A High-quality Benchmark for Large-scale Single Object Tracking
+        Heng Fan, Liting Lin, Fan Yang, Peng Chu, Ge Deng, Sijia Yu, Hexin Bai, Yong Xu, Chunyuan Liao and Haibin Ling
+        CVPR, 2019
+        https://arxiv.org/pdf/1809.07845.pdf
+    Download the dataset from https://cis.temple.edu/lasot/download.html
+    """
+------------------------------------------------------------------------------------------------------------------------------------------------------
+8) LaSOTlmdb
+    """
+    LaSOT test set consisting of 280 videos (see Protocol-II in the LaSOT paper)
+    Publication:
+        LaSOT: A High-quality Benchmark for Large-scale Single Object Tracking
+        Heng Fan, Liting Lin, Fan Yang, Peng Chu, Ge Deng, Sijia Yu, Hexin Bai, Yong Xu, Chunyuan Liao and Haibin Ling
+        CVPR, 2019
+        https://arxiv.org/pdf/1809.07845.pdf
+    Download the dataset from https://cis.temple.edu/lasot/download.html
+    """
+------------------------------------------------------------------------------------------------------------------------------------------------------
+9) got10k
+    """ GOT-10k dataset.
+    Publication:
+        GOT-10k: A Large High-Diversity Benchmark for Generic Object Tracking in the Wild
+        Lianghua Huang, Xin Zhao, and Kaiqi Huang
+        arXiv:1810.11981, 2018
+        https://arxiv.org/pdf/1810.11981.pdf
+    Download dataset from http://got-10k.aitestunion.com/downloads
+    """
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
